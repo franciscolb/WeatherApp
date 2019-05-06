@@ -48,7 +48,7 @@
     <script type = "text/javascript">
         function start() {
             var sel = document.getElementById('place');
-            var json = fetch("http://localhost:8080/places")
+            var json = fetch("http://localhost:8080/api/places")
                     .then((resp) => resp.json())
                     .then(function (data) {
                         for (loc in data) {
@@ -66,7 +66,7 @@
             var placeSelect = document.getElementById("place");
             var place = placeSelect.options[placeSelect.selectedIndex].value;
             var day = document.getElementById("day").selectedIndex;
-            var json = fetch("http://localhost:8080/weather/"+place)
+            var json = fetch("http://localhost:8080/api/weather/"+place)
                     .then((resp) => resp.json())
                     .then(function (data) {
                         document.getElementById("forecastDate").textContent = data["data"][day]["forecastDate"];

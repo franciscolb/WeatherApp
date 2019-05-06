@@ -25,11 +25,10 @@ public class WeatherApplication {
     }
 
     @Bean
-    public CommandLineRunner run(RestTemplate restTemplate) throws Exception {  
+    public CommandLineRunner run(RestTemplate restTemplate) {  
         return args -> {
             Weather weather = restTemplate.getForObject(
                     "http://api.ipma.pt/open-data/forecast/meteorology/cities/daily/1010500.json", Weather.class);
-            log.info(weather.toString());
             Cache.setWeather(1010500,weather);
             
             Locations locs = restTemplate.getForObject("http://api.ipma.pt/open-data/distrits-islands.json", Locations.class);

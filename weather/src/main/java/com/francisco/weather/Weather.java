@@ -18,9 +18,6 @@ public class Weather {
     public void setTime(long time) {
         this.time = time;
     }
-
-    public Weather() {
-    }
     
     public int getGlobalIdLocal() {
         return globalIdLocal;
