@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>WeatherApp</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <h1>WeatherApp</h1>
+        </div>
+        <div>
+            <b>Place: </b>
+            <select id="place"></select>
+            <select id="day">
+                <option>Today</option>
+                <option>Tomorrow</option>
+                <option>3rd Day</option>
+                <option>4th Day</option>
+                <option>5th Day</option>
+            </select>
+            <button onclick="callAPI()">OK</button>
+        </div>
+        <br/>
+        <div>
+            <b>Forecast Date: </b>
+            <span id="forecastDate"></span>
+        </div>
+        <br/>
+        <div>
+            <b>Min Temperature: </b>
+            <span id="minTemp"></span>
+        </div>
+        <br/>
+        <div>
+            <b>Max Temperature: </b>
+            <span id="maxTemp"></span>
+        </div>
+        <br/>
+        <div>
+            <b>Wind Direction: </b>
+            <span id="windDirec"></span>
+        </div>
+        <br/>
+        <!--<div>
+            Min Temperature: 
+        </div>-->
+    </body>
+    <script type = "text/javascript">
+        function start() {
+            var sel = document.getElementById('place');
+            var json = fetch("http://localhost:8080/places")
+                    .then((resp) => resp.json())
+                    .then(function (data) {
+                        for (loc in data) {
+                            var opt = document.createElement('option');
+                            opt.innerHTML = data[loc]["local"];
+                            opt.value = loc;
+                            sel.appendChild(opt);
+                        }
+                        ;
+                    })
+            }
+        
+        
+        function callAPI() {
+            var placeSelect = document.getElementById("place");
+            var place = placeSelect.options[placeSelect.selectedIndex].value;
+            var day = document.getElementById("day").selectedIndex;
+            var json = fetch("http://localhost:8080/weather/"+place)
+                    .then((resp) => resp.json())
+                    .then(function (data) {
+                        document.getElementById("forecastDate").textContent = data["data"][day]["forecastDate"];
+                        document.getElementById("minTemp").textContent = data["data"][day]["tMin"];
+                        document.getElementById("maxTemp").textContent = data["data"][day]["tMax"];
+                        document.getElementById("windDirec").textContent = data["data"][day]["predWindDir"];
+                    })
+        }
+        window.onload = start();
+
+    </script>
+</html>
